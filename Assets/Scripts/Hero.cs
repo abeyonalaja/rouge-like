@@ -12,9 +12,12 @@ public class Hero : MonoBehaviour {
 
 	private Animator animator;
 
+	public Rigidbody2D enemy;
+
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator> ();
+		InvokeRepeating("EnemySpawn", 3, 3f);
 	}
 	
 	// Update is called once per frame
@@ -24,6 +27,15 @@ public class Hero : MonoBehaviour {
 
 	void FixedUpdate() {
 		MoveCharacter ();
+	}
+
+	void enemySpawn() {
+		Rigidbody2D enemyInstance;
+
+//		enemyInstance = Instantiate(enemy, transform.position, transform.rotation) as Rigidbody;
+		enemyInstance = (Rigidbody2D) Instantiate(enemy,
+		                            new Vector3(Random.Range(2, 8),Random.Range(-4, 4),0),
+		                            Quaternion.Euler(new Vector3(0,0,0)));
 	}
 
 	void MoveCharacter() {
