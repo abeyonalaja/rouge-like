@@ -11,6 +11,10 @@ public class Hero : MonoBehaviour {
 	private bool down  = false;
 
 	private Animator animator;
+	public Rigidbody2D orb;
+	private float orbSpeed = 20f;
+	private float orbSpeed2 = -20f;
+
 
 	public Rigidbody2D enemy;
 
@@ -22,7 +26,28 @@ public class Hero : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		Rigidbody2D orbInstance;
+		
+		if(Input.GetButtonDown("Fire1")){
+			orbInstance = (Rigidbody2D) Instantiate(orb, transform.position, Quaternion.Euler(new Vector3(-1, 0, 0)));
+			
+			if(right == true){
+				orbInstance.velocity = new Vector2(orbSpeed,0);
+			}
+			
+			if(left == true){
+				orbInstance.velocity = new Vector2(orbSpeed2,0);
+			}
+			
+			if(up == true){
+				orbInstance.velocity = new Vector2(0, orbSpeed);
+			}
+			
+			if(down == true){
+				orbInstance.velocity = new Vector2(0, orbSpeed2);
+			}
+		}
+		
 	}
 
 	void FixedUpdate() {
@@ -31,9 +56,7 @@ public class Hero : MonoBehaviour {
 
 	void EnemySpawn() {
 		Rigidbody2D enemyInstance;
-		print ("ENEMY");
 
-//		enemyInstance = Instantiate(enemy, transform.position, transform.rotation) as Rigidbody;
 		enemyInstance = (Rigidbody2D) Instantiate(enemy,
 		                            new Vector3(Random.Range(2, 8),Random.Range(-4, 4),0),
 		                            Quaternion.Euler(new Vector3(0,0,0)));
@@ -115,7 +138,23 @@ public class Hero : MonoBehaviour {
 			up    = false;
 			transform.Translate(Vector3.down * speed * Time.deltaTime);
 		}
+	}
 
+	void OnGUI() 
+	{
+		GUI.Box (new Rect (10, 10, 100, 90), " "+Time.time);
+	}
 
+	void OnCollisionEnter2D(Collision2D coll) {
+		if((coll.gameObject.name == "enemy(Clone)") 
+		   || (coll.gameObject.name == "right") 
+		   || (coll.gameObject.name == "left")
+		   || (coll.gameObject.name == "top")
+		   || (coll.gameObject.name == "bottom")){
+
+			Time.timeScale = 0;
+			Destroy(gameObject);
+
+		}
 	}
 }

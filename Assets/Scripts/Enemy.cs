@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour {
 	private bool enemyLeft  = false;
 	private bool enemyUp    = false;
 	private bool enemyDown  = false;
-	
+
+
 	private Animator enemyAnimator;
 
 	public GameObject hero;
@@ -22,6 +23,7 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		EnemyMove ();
+
 	}
 
 	void EnemyMove() {
@@ -83,6 +85,8 @@ public class Enemy : MonoBehaviour {
 				enemyRight = false;
 				enemyUp    = false;
 
+
+
 				transform.Translate(Vector3.left * enemySpeed * Time.deltaTime);
 			}
 		}
@@ -91,4 +95,16 @@ public class Enemy : MonoBehaviour {
 	void Accelerate() {
 		enemySpeed = enemySpeed + 1;
 	}
+
+	void OnCollisionEnter2D(Collision2D coll) {
+		print("ENTER");
+		if(coll.gameObject.name == "orb(Clone)"){
+			print("IS ORB");
+			Destroy(coll.gameObject);
+			Destroy(gameObject);
+		}
+		
+	}
+
+
 }
