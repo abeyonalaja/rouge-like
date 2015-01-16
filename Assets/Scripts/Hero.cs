@@ -29,8 +29,9 @@ public class Hero : MonoBehaviour {
 		MoveCharacter ();
 	}
 
-	void enemySpawn() {
+	void EnemySpawn() {
 		Rigidbody2D enemyInstance;
+		print ("ENEMY");
 
 //		enemyInstance = Instantiate(enemy, transform.position, transform.rotation) as Rigidbody;
 		enemyInstance = (Rigidbody2D) Instantiate(enemy,
